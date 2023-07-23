@@ -1,0 +1,11 @@
+@mixin stack() {
+  > * + * {
+    margin-top: 1rem;
+  }
+}
+
+@mixin stack-horizontal() {
+  > * + * {
+    margin-left: 1rem;
+  }
+}

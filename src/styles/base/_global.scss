@@ -1,0 +1,54 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: $white;
+	background: $secondary;
+	margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+  &.open-modal {
+    overflow: hidden;
+  }
+}
+
+label {
+	display: block;
+}
+
+input, button, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.4em;
+}
+
+input:disabled {
+	color: $primary;
+}
+
+input[type="range"] {
+	height: 0;
+}
+
+select {
+  cursor: pointer;
+  padding: 5px 35px 2px 5px;
+}
+
+details {
+  margin: 0 15px;
+}
+
+summary {
+  cursor: pointer;
+  margin-bottom: 5px;
+}

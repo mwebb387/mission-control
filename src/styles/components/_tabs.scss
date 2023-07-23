@@ -1,0 +1,51 @@
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+
+  .tab {
+    box-shadow: 0px 7px 5px -5px $black;
+    display: flex;
+    flex: 1 0 auto;
+    order: 0;
+
+    button {
+      background-color: transparent;
+      border: 0;
+      border-bottom: 1px solid $off-white;
+      color: $white;
+      cursor: pointer;
+      height: 100%;
+      position: relative;
+      text-align: center;
+      width: 100%;
+
+      &:active,
+      &:focus {
+        outline: 0;
+      }
+    }
+
+    &.tab-selected {
+      & + .tab-content {
+        display: block;
+      }
+
+      button::after {
+        background-color: $accent;
+        bottom: 1px;
+        content: '';
+        height: 2px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+    }
+  }
+
+  .tab-content {
+    margin: 10px 0;
+    display: none;
+    flex: 1 0 100%;
+    order: 1;
+  }
+}

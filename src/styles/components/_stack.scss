@@ -1,0 +1,7 @@
+.stack {
+  @include stack();
+}
+
+.stack-horizontal {
+  @include stack-horizontal();
+}

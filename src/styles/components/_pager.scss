@@ -1,0 +1,10 @@
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .button.selected {
+    font-weight: bold;
+    text-decoration: overline underline;
+  }
+}
