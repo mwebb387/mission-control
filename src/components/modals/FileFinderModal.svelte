@@ -20,17 +20,7 @@
   async function navigate(directory?: FileSystemEntry) {
     const path = directory?.path;
     const results = await AppService.getDirectoryListing(path);
-    listing = [
-      // Parent directory as first entry
-      {
-        name: '..',
-        path: `${path}\\..`,
-        is_directory: true,
-        extension: ''
-      },
-      // Sort results by name
-      ...results.sort(sortEntry)
-    ];
+    listing = results.sort(sortEntry); // Sort results by name
   }
 
   function sortEntry(entry1: FileSystemEntry, entry2: FileSystemEntry) {

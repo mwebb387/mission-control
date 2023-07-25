@@ -7,7 +7,20 @@ use serde::{Serialize, Deserialize};
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn get_dir_entries(path: String) -> Vec<FileSystemEntry> {
+    let path = if path.is_empty() {
+        var_os("USERPROFILE")
+            .unwrap() // TODO: First unwrap error handling?
+            .to_str()
+            .unwrap_or_else(|| "")
+            .into()
+    } else {
+        path
+    };
+    let parent_path = path.clone() + "\\..";
+
     let mut entries = Vec::new();
+    entries.push(FileSystemEntry { name: "..".into(), path: parent_path, is_directory: true, extension: "".into() });
+
     let rd = fs::read_dir(path);
 
     match rd {
@@ -15,10 +28,10 @@ fn get_dir_entries(path: String) -> Vec<FileSystemEntry> {
             .into_iter()
             .filter_map(|e| e.ok())
             .for_each(|dir| entries.push(FileSystemEntry {
-                name: String::from(dir.file_name().to_str().unwrap_or("")),
-                path: String::from(dir.path().to_str().unwrap_or("")),
+                name: dir.file_name().to_str().unwrap_or_else(|| "").into(),
+                path: dir.path().to_str().unwrap_or_else(|| "").into(),
                 is_directory: dir.path().is_dir(),
-                extension: String::from(dir.path().extension().unwrap_or(OsStr::new("")).to_str().unwrap_or(""))
+                extension: dir.path().extension().unwrap_or_else(|| OsStr::new("")).to_str().unwrap_or_else(|| "").into()
             })),
         Err(_) => ()
     }
@@ -76,7 +89,7 @@ struct ExecutionCommand {
 
 fn get_config_dir() -> String {
     // TODO: For linux/mac?
-    return String::from(var_os("LOCALAPPDATA").unwrap().to_str().unwrap());
+    return var_os("LOCALAPPDATA").unwrap().to_str().unwrap().into()
 }
 
 fn run_normal(cmd: ExecutionCommand) {

@@ -5,9 +5,6 @@ import ApplicationService from './services/application-service';
 import tagStore$ from './stores/tag-store';
 
 const main = (config: Config) : App => {
-  // Register notifications for Eel
-  // registerNotificationMethod();
-
   // Initialize the application
 	const app = new App({
 		target: document.body,
