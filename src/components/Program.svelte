@@ -2,7 +2,6 @@
   import { createEventDispatcher } from 'svelte';
   import { draggable } from '../actions/draggable';
   import AddFromOptions from './AddFromOptions.svelte';
-  import FileFinderModal from './modals/FileFinderModal.svelte';
   import IconFinderModal from './modals/IconFinderModal.svelte';
   import ProgramArgument from './ProgramArgument.svelte';
   import ProgramService from '../services/program-service';
@@ -10,6 +9,7 @@
   import { ArgumentType } from '../models/config';
   import type { ModalResponse } from '../models/modal-types'
   import type { ProgramTemplate } from '../models/config';
+  import { selectDirOrFile } from '../services/tauri-service';
 
   export let value: ProgramTemplate = {
     id: '',
@@ -27,7 +27,6 @@
   let isEditing = false;
 
   let iconModal: IconFinderModal;
-  let fileModal: FileFinderModal;
 
   const dispatch = createEventDispatcher();
 
@@ -72,9 +71,9 @@
   }
 
   const onSelectProgram = async () => {
-    let response: ModalResponse<string> = await fileModal.awaitResponse();
-    if (response.result === 'confirm') {
-      value.path = response.data;
+    const response = await selectDirOrFile()
+    if (response) {
+      value.path = response;
     }
   }
 </script>
@@ -93,14 +92,14 @@
 
     <div class="data-container__content-row-flush">
       <TextInput label="Program" description="Full Path" bind:value={value.path} />
-      <button class="button icon-button" on:click={onSelectProgram}>
+      <button class="button icon-button" on:click={onSelectProgram} title="Select Program Path">
         <i class="nf nf-fa-search"></i>
       </button>
     </div>
 
     <div class="data-container__content-row-flush">
       <TextInput label="Icon" description="Icon Class" bind:value={value.icon} />
-      <button class="button icon-button" on:click={onSelectIconClass}>
+      <button class="button icon-button" on:click={onSelectIconClass} title="Select Icon">
         <i class="nf nf-fa-search"></i>
       </button>
     </div>
@@ -121,5 +120,3 @@
 </section>
 
 <IconFinderModal bind:this={iconModal}></IconFinderModal>
-
-<FileFinderModal bind:this={fileModal}></FileFinderModal>

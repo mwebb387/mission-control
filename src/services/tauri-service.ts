@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api';
+import { open } from '@tauri-apps/api/dialog';
 import { type Config, type Execution, type Session, type ProgramTemplate, ArgumentType } from '../models/config';
 import type { FileSystemEntry } from '../models/file-system';
 import { notify } from './notification-service';
@@ -6,8 +7,16 @@ import SessionService from './session-service';
 
 const CONFIG_DEFAULT: Config = {sessions:[], programs:[]};
 
-export function getDirectoryListing(directoryName?: string): Promise<FileSystemEntry[]> {
-  return invoke('get_dir_entries', { path: directoryName ?? '' });
+export async function selectDirOrFile(initialDirectory?: string, directory: boolean = false): Promise<null | string> {
+  const selected = await open({
+    directory,
+    multiple: false,
+    defaultPath: initialDirectory ?? ''
+  });
+
+  return Array.isArray(selected) && selected.length
+    ? selected[0]
+    : <null | string>selected;
 }
 
 export async function loadConfiguration(): Promise<Config> {
@@ -34,7 +43,7 @@ export async function startSession(session: Session, programs: ProgramTemplate[]
 }
 
 export default {
-  getDirectoryListing,
+  selectDirOrFile,
   loadConfiguration,
   saveConfiguration,
   startProgram,

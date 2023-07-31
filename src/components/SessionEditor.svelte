@@ -1,5 +1,4 @@
 <script lang="ts">
-  import FileFinderModal from './modals/FileFinderModal.svelte';
   import Checkbox from './inputs/Checkbox.svelte';
   import TextAreaInput from './inputs/TextAreaInput.svelte';
   import TextInput from './inputs/TextInput.svelte';
@@ -11,6 +10,7 @@
   import type { ProgramTemplate, Session } from '../models/config';
 
   import { createEventDispatcher } from 'svelte';
+  import { selectDirOrFile } from '../services/tauri-service';
 
   export let programs: ProgramTemplate[] = [];
   export let value: Session = {
@@ -24,8 +24,6 @@
 
   const sessionProgramTypeOptions =
     programs.map(prog => ({ name: prog.name, value: prog.id }));
-
-  let fileModal: FileFinderModal;
 
   // Helpers
 
@@ -62,10 +60,10 @@
     dispatch('removeSession', value);
   }
 
-  const onSelectFile = async (progIndex: number, argIndex: number) => {
-    const response : ModalResponse<string> = await fileModal.awaitResponse();
-    if (response.result === 'confirm') {
-      value.programs[progIndex].arguments[argIndex].value += response.data;
+  const onSelectFile = async (progIndex: number, argIndex: number, isDirectory = false) => {
+    const response = await selectDirOrFile(null, isDirectory)
+    if (response) {
+      value.programs[progIndex].arguments[argIndex].value += response;
     }
   }
 </script>
@@ -93,9 +91,14 @@
             <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
           {:else}
             <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
-            <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex)}>
-              <i class="nf nf-fa-search"></i>
-            </button>
+            <div class="finder-container">
+              <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
+                <i class="nf nf-oct-file"></i>
+              </button>
+              <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
+                <i class="nf nf-mdi-folder_outline"></i>
+              </button>
+            </div>
           {/if}
         {/each}
       </div>
@@ -110,4 +113,9 @@
   </div>
 </section>
 
-<FileFinderModal bind:this={fileModal}></FileFinderModal>
+<style>
+  .finder-container {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

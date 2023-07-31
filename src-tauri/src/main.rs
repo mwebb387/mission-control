@@ -6,40 +6,6 @@ use serde::{Serialize, Deserialize};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn get_dir_entries(path: String) -> Vec<FileSystemEntry> {
-    let path = if path.is_empty() {
-        var_os("USERPROFILE")
-            .unwrap() // TODO: First unwrap error handling?
-            .to_str()
-            .unwrap_or_else(|| "")
-            .into()
-    } else {
-        path
-    };
-    let parent_path = path.clone() + "\\..";
-
-    let mut entries = Vec::new();
-    entries.push(FileSystemEntry { name: "..".into(), path: parent_path, is_directory: true, extension: "".into() });
-
-    let rd = fs::read_dir(path);
-
-    match rd {
-        Ok(rd) => rd
-            .into_iter()
-            .filter_map(|e| e.ok())
-            .for_each(|dir| entries.push(FileSystemEntry {
-                name: dir.file_name().to_str().unwrap_or_else(|| "").into(),
-                path: dir.path().to_str().unwrap_or_else(|| "").into(),
-                is_directory: dir.path().is_dir(),
-                extension: dir.path().extension().unwrap_or_else(|| OsStr::new("")).to_str().unwrap_or_else(|| "").into()
-            })),
-        Err(_) => ()
-    }
-
-    return entries;
-}
-
-#[tauri::command]
 fn start_session(commands: Vec<ExecutionCommand>) {
     for ex in commands {
         if ex.runAsAdmin {
@@ -70,14 +36,6 @@ fn save_config(config: String) -> bool {
         Ok(_) => true,
         Err(_) => false
     }
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct FileSystemEntry {
-  name: String,
-  path: String,
-  is_directory: bool,
-  extension: String
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -117,7 +75,6 @@ fn run_elevated(cmd: ExecutionCommand) {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            get_dir_entries,
             load_config,
             save_config,
             start_session
