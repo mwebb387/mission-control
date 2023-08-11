@@ -37,7 +37,7 @@
   }
 </script>
 
-<div class="stack">
+<div class="flex flex-col">
 
   {#each programs as program, i (program.id)}
     <Dropzone on:dropped={ev => onDropped(ev, i)}></Dropzone>

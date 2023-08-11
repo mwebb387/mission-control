@@ -89,8 +89,8 @@
 
 <svelte:window on:keydown={onKeydown} />
 
-<div class="stack">
-  <details class="stack">
+<div class="flex flex-col">
+  <details class="flex flex-col">
     <summary>Filters</summary>
     <TextInput label="Filter by name" description="Name..." bind:value={textFilter} />
     <TagInput bind:tags={tagsFilter} />

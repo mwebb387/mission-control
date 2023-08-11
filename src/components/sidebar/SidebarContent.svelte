@@ -81,7 +81,7 @@
     max-width: 1000px;
     margin: 0 auto;
     overflow-y: auto;
-    padding: 8px;
+    padding: 8px 8px 50px;
     position: absolute;
     right: 0;
     top: 0;
