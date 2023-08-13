@@ -90,11 +90,16 @@
 <svelte:window on:keydown={onKeydown} />
 
 <div class="flex flex-col">
-  <details class="flex flex-col">
-    <summary>Filters</summary>
-    <TextInput label="Filter by name" description="Name..." bind:value={textFilter} />
-    <TagInput bind:tags={tagsFilter} />
-  </details>
+  <div class="collapse bg-base-200">
+    <input type="checkbox" /> 
+    <div class="collapse-title text-xl font-medium">
+      Filters
+    </div>
+    <div class="collapse-content"> 
+      <TextInput label="Filter by name" description="Name..." bind:value={textFilter} />
+      <TagInput bind:tags={tagsFilter} />
+    </div>
+  </div>
 
   {#each filteredSessions as session, i (session.id)}
     {#if !isFilterActive}
