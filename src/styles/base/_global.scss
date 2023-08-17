@@ -11,9 +11,6 @@ html, body {
 }
 
 body {
-	color: $white;
-	background: $secondary;
-	margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
   &.open-modal {
@@ -31,24 +28,24 @@ input, button, select, textarea {
 	padding: 0.4em;
 }
 
-input:disabled {
-	color: $primary;
-}
+// input:disabled {
+// 	color: $primary;
+// }
 
-input[type="range"] {
-	height: 0;
-}
+// input[type="range"] {
+// 	height: 0;
+// }
 
-select {
-  cursor: pointer;
-  padding: 5px 35px 2px 5px;
-}
+// select {
+//   cursor: pointer;
+//   padding: 5px 35px 2px 5px;
+// }
 
-details {
-  margin: 0 15px;
-}
+// details {
+//   margin: 0 15px;
+// }
 
-summary {
-  cursor: pointer;
-  margin-bottom: 5px;
-}
+// summary {
+//   cursor: pointer;
+//   margin-bottom: 5px;
+// }
