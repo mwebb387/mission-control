@@ -2,6 +2,14 @@
 
 An application for adding programs that need to be started and then creating a "Session" for running multiple programs at a time.
 
+## Overview
+
+This application is the result of the desire to reduce the time required for me to context switch and open up new sets of windows and browser tabs every time I move to work on a different project (and I sometimes work on three or more projects in a day).
+
+As a personal project, I feel at times it is in a constant state of flux as I learn new and better techniques and new and better technologies and libraries emerge. I used this project as an excuse to learn Svelte as well as a way to flex my design chops using Sass, which are OK. Some things adhere to best practices, but some things are more experimental (ex. the Modal dialogs). I started with separating out the styles from the components, but learned along the way that having at least some component-scoped styling was easier to maintain. Then I wanted to have customizable theming, so I decided to start using Tailwind and Daisy UI (currently this is being updated in the `feature/ui-updates` branch).
+
+This project also started several years ago using Svelte 3, Rollup and Python Eel and I would consider it pre-Alpha. Now it uses Svelte 4, Vite and Tauri (Rust) so it has gone through multiple updates over those years. The current repository's history starts where I would consider the app to be in a much more stable place.
+
 ## Usage
 
 Coming soon...
