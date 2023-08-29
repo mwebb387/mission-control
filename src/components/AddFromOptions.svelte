@@ -34,27 +34,18 @@
 
 {#if !editState}
   <div>
-    <button class="button icon-button" title="Add New" on:click={addStart}>
+    <button class="btn btn-square btn-sm" title="Add New" on:click={addStart}>
       <i class="nf nf-fa-plus"></i>
     </button>
   </div>
 {:else}
-  <div class="stack-horizontal">
+  <div class="flex gap-1 flex-wrap justify-between items-center">
     <Dropdown label={label} options={options} bind:value={newOption} />
-    <button class="button icon-button" title="Confirm" on:click={confirm}>
+    <button class="btn btn-square btn-sm" title="Confirm" on:click={confirm}>
       <i class="nf nf-fa-check"></i>
     </button>
-    <button class="button icon-button" title="Cancel" on:click={cancel}>
+    <button class="btn btn-square btn-sm" title="Cancel" on:click={cancel}>
       <i class="nf nf-fa-times"></i>
     </button>
   </div>
 {/if}
-
-<style>
-div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-}
-</style>

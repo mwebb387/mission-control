@@ -34,6 +34,6 @@
     
     <Dropdown label="Type" options={dropdownOptions} bind:value={argument.type} />
     
-    <button title="Remove" class="button button-delete icon-button" on:click={onRemoveArgument}><i class="nf nf-fa-trash"></i></button>
+    <button title="Remove" class="btn btn-square btn-sm" on:click={onRemoveArgument}><i class="nf nf-fa-trash"></i></button>
   </div>
 </div>

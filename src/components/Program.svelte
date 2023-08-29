@@ -90,14 +90,14 @@
 
       <div class="flex items-center">
         <TextInput label="Program" description="Full Path" bind:value={value.path} />
-        <button class="button icon-button" on:click={onSelectProgram} title="Select Program Path">
+        <button class="btn btn-square btn-sm" on:click={onSelectProgram} title="Select Program Path">
           <i class="nf nf-fa-search"></i>
         </button>
       </div>
 
       <div class="flex items-center">
         <TextInput label="Icon" description="Icon Class" bind:value={value.icon} />
-        <button class="button icon-button" on:click={onSelectIconClass} title="Select Icon">
+        <button class="btn btn-square btn-sm" on:click={onSelectIconClass} title="Select Icon">
           <i class="nf nf-fa-search"></i>
         </button>
       </div>
@@ -111,8 +111,8 @@
       <AddFromOptions label="New Argument Type" options={argTypeOptions} on:newValue={onNewArgument} />
 
       <div class="actions">
-        <button title="Save" class="button button-save icon-button" on:click={onEditEnd}><i class="nf nf-fa-save"></i></button>
-        <button title="Remove" class="button button-delete icon-button" on:click={onRemoveProgram}><i class="nf nf-fa-trash"></i></button>
+        <button title="Save" class="btn btn-square btn-sm" on:click={onEditEnd}><i class="nf nf-fa-save"></i></button>
+        <button title="Remove" class="btn btn-square btn-sm" on:click={onRemoveProgram}><i class="nf nf-fa-trash"></i></button>
       </div>
     {/if}
   </div>

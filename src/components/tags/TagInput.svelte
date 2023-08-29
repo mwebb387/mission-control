@@ -61,12 +61,12 @@
       <option value={storeTag}>
     {/each}
   </datalist>
-  <button class="button icon-button" disabled="{!newTagsInput}" on:click={onAddTagsClick}>
+  <button class="btn btn-square btn-sm" disabled="{!newTagsInput}" on:click={onAddTagsClick}>
     <i class="nf nf-fa-plus"></i>
   </button>
 </div>
 
-<div class="data-container__content-row-left">
+<div class="flex gap-4 px-6">
   {#each tags as tag}
     <Tag on:click={onTagClick} >{tag}</Tag>
   {/each}

@@ -69,47 +69,49 @@
 </script>
 
 
-<section class="data-container edit">
-  <TextInput label="Name" description="Display Name" bind:value={value.name} />
+<section class="card bg-neutral text-neutral-content">
+  <div class="card-body">
+    <TextInput label="Name" description="Display Name" bind:value={value.name} />
 
-  <TagInput bind:tags={value.tags} />
+    <TagInput bind:tags={value.tags} />
 
-  <h2>Programs</h2>
+    <h2 class="card-title">Programs</h2>
 
-  {#each value.programs as program, progIndex}
-    <div class="data-container__content-container">
-      <button title="Remove" class="button button-delete icon-button" on:click={() => onRemoveSessionProgram(progIndex)}><i class="nf nf-fa-trash"></i></button>
-      <span>{getProgramName(program.id)}</span>
+    {#each value.programs as program, progIndex}
+      <div class="data-container__content-container">
+        <button title="Remove" class="btn btn-square btn-sm" on:click={() => onRemoveSessionProgram(progIndex)}><i class="nf nf-fa-trash"></i></button>
+        <span>{getProgramName(program.id)}</span>
 
-      <TextInput label="Name" bind:value={program.name} />
+        <TextInput label="Name" bind:value={program.name} />
 
-      <div class="data-container__content-row">
-        <Checkbox label="Admin" bind:checked={program.runAsAdmin} />
-        <Checkbox label="Manual Only" bind:checked={program.manualOnly} title="Exclude from full session execution" />
-        {#each program.arguments as arg, argIndex}
-          {#if getProgramArgumentType(program.id, arg.id) === ArgumentType.option}
-            <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
-          {:else}
-            <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
-            <div class="finder-container">
-              <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
-                <i class="nf nf-oct-file"></i>
-              </button>
-              <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
-                <i class="nf nf-mdi-folder_outline"></i>
-              </button>
-            </div>
-          {/if}
-        {/each}
+        <div class="data-container__content-row">
+          <Checkbox label="Admin" bind:checked={program.runAsAdmin} />
+          <Checkbox label="Manual Only" bind:checked={program.manualOnly} title="Exclude from full session execution" />
+          {#each program.arguments as arg, argIndex}
+            {#if getProgramArgumentType(program.id, arg.id) === ArgumentType.option}
+              <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
+            {:else}
+              <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
+              <div class="finder-container">
+                <button class="btn btn-square btn-sm" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
+                  <i class="nf nf-oct-file"></i>
+                </button>
+                <button class="btn btn-square btn-sm" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
+                  <i class="nf nf-mdi-folder_outline"></i>
+                </button>
+              </div>
+            {/if}
+          {/each}
+        </div>
       </div>
+    {/each}
+
+    <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
+
+    <div class="card-actions justify-end">
+      <button title="Save" class="btn btn-square btn-sm" on:click={onSave}><i class="nf nf-fa-save"></i></button>
+      <button title="Remove" class="btn btn-square btn-sm" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
     </div>
-  {/each}
-
-  <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
-
-  <div class="actions">
-    <button title="Save" class="button button-save icon-button" on:click={onSave}><i class="nf nf-fa-save"></i></button>
-    <button title="Remove" class="button button-delete icon-button" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
   </div>
 </section>
 
