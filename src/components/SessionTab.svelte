@@ -90,7 +90,7 @@
 <svelte:window on:keydown={onKeydown} />
 
 <div class="flex flex-col">
-  <div class="collapse bg-base-200">
+  <div class="collapse collapse-arrow bg-base-200">
     <input type="checkbox" /> 
     <div class="collapse-title text-xl font-medium">
       Filters

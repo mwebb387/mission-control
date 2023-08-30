@@ -75,36 +75,62 @@
 
     <TagInput bind:tags={value.tags} />
 
+    <div class="divider"></div>
+
     <h2 class="card-title">Programs</h2>
 
-    {#each value.programs as program, progIndex}
-      <div class="data-container__content-container">
-        <button title="Remove" class="btn btn-square btn-sm" on:click={() => onRemoveSessionProgram(progIndex)}><i class="nf nf-fa-trash"></i></button>
-        <span>{getProgramName(program.id)}</span>
+    <div class="join join-vertical w-full">
+      {#each value.programs as program, progIndex (program.id)}
+        <div class="collapse collapse-arrow join-item border border-base-300">
+          <input type="checkbox" name="my-accordion-4" /> 
+          <div class="collapse-title font-medium">
+            {getProgramName(program.id)}
+          </div>
 
-        <TextInput label="Name" bind:value={program.name} />
+          <div class="collapse-content">
 
-        <div class="data-container__content-row">
-          <Checkbox label="Admin" bind:checked={program.runAsAdmin} />
-          <Checkbox label="Manual Only" bind:checked={program.manualOnly} title="Exclude from full session execution" />
-          {#each program.arguments as arg, argIndex}
-            {#if getProgramArgumentType(program.id, arg.id) === ArgumentType.option}
-              <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
-            {:else}
-              <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
-              <div class="finder-container">
-                <button class="btn btn-square btn-sm" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
-                  <i class="nf nf-oct-file"></i>
-                </button>
-                <button class="btn btn-square btn-sm" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
-                  <i class="nf nf-mdi-folder_outline"></i>
-                </button>
-              </div>
-            {/if}
-          {/each}
+            <div class="flex items-center gap-1 px-6">
+              <Checkbox label="Admin" bind:checked={program.runAsAdmin} />
+              <Checkbox label="Manual Only" bind:checked={program.manualOnly} title="Exclude from full session execution" />
+            </div>
+
+            <TextInput label="Name" bind:value={program.name} />
+
+            <div class="flex gap-1 pl-6">
+              {#each program.arguments as arg, argIndex}
+                {#if getProgramArgumentType(program.id, arg.id) === ArgumentType.option}
+                  <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
+                {:else}
+                  <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
+
+                  <div class="dropdown dropdown-top dropdown-end">
+                    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label tabindex="0" class="btn btn-square btn-sm"><i class="nf nf-fa-search"></i></label>
+
+                    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                    <ul tabindex="0" class="dropdown-content z-10 menu p-4 shadow rounded-box bg-base-100 w-52 flex gap-1">
+                      <button class="btn btn-sm btn-outline" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
+                        <i class="nf nf-oct-file"></i>File
+                      </button>
+                      <button class="btn btn-sm btn-outline" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
+                        <i class="nf nf-mdi-folder_outline"></i>Folder
+                      </button>
+                    </ul>
+                  </div>
+                {/if}
+              {/each}
+            </div>
+
+            <div class="flex justify-end mt-12">
+              <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={() => onRemoveSessionProgram(progIndex)}>
+                <i class="nf nf-fa-trash"></i>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    {/each}
+      {/each}
+    </div>
 
     <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
 
@@ -114,10 +140,3 @@
     </div>
   </div>
 </section>
-
-<style>
-  .finder-container {
-    display: flex;
-    flex-direction: column;
-  }
-</style>
