@@ -54,13 +54,15 @@
     </button>
   </div>
 {:else}
-  <div class="flex gap-1 flex-wrap justify-between items-center" on:focusout={focusout}>
+  <div class="flex gap-1 flex-wrap justify-between items-end" on:focusout={focusout}>
     <TextInput label={label} bind:value={newValue} on:keydown={keydown} autofocus={true} />
-    <button class="btn btn-square btn-sm" title="Confirm" on:click={confirm}>
-      <i class="nf nf-fa-check"></i>
-    </button>
-    <button class="btn btn-square btn-sm" title="Cancel" on:click={cancel}>
-      <i class="nf nf-fa-times"></i>
-    </button>
+    <div class="pb-2">
+      <button class="btn btn-square btn-sm" title="Confirm" on:click={confirm}>
+        <i class="nf nf-fa-check"></i>
+      </button>
+      <button class="btn btn-square btn-sm" title="Cancel" on:click={cancel}>
+        <i class="nf nf-fa-times"></i>
+      </button>
+    </div>
   </div>
 {/if}

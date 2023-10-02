@@ -58,7 +58,7 @@
   <div class="card-body">
     <h3 class="card-title">{value.name}</h3>
 
-    <div class="flex gap-4 px-6">
+    <div class="flex flex-wrap gap-4 px-6">
       {#each value.programs as program, index}
         <button title={getProgramName(program.id)} class="btn btn-sm" on:click={() => onStartProgram(index)}>
           <i class="{getProgramIcon(program.id)}"></i>

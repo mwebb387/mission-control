@@ -15,7 +15,7 @@
 </script>
 
 <div class="sidebar-container">
-  <div class="sidebar">
+  <div class="sidebar bg-neutral text-neutral-content">
     <slot></slot>
   </div>
 </div>

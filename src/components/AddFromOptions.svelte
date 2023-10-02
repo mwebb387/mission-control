@@ -39,13 +39,15 @@
     </button>
   </div>
 {:else}
-  <div class="flex gap-1 flex-wrap justify-between items-center">
+  <div class="flex gap-1 flex-wrap justify-between items-end">
     <Dropdown label={label} options={options} bind:value={newOption} />
-    <button class="btn btn-square btn-sm" title="Confirm" on:click={confirm}>
-      <i class="nf nf-fa-check"></i>
-    </button>
-    <button class="btn btn-square btn-sm" title="Cancel" on:click={cancel}>
-      <i class="nf nf-fa-times"></i>
-    </button>
+    <div class="pb-2">
+      <button class="btn btn-square btn-sm" title="Confirm" on:click={confirm}>
+        <i class="nf nf-fa-check"></i>
+      </button>
+      <button class="btn btn-square btn-sm" title="Cancel" on:click={cancel}>
+        <i class="nf nf-fa-times"></i>
+      </button>
+    </div>
   </div>
 {/if}
