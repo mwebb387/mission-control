@@ -16,11 +16,11 @@
 
   <div class="modal-buttons">
     {#if modalStyle === 'save-cancel'}
-      <button class="button" on:click={() => ok(true)}>Save</button>
-      <button class="button" on:click={() => cancel(false)}>Cancel</button>
+      <button class="btn btn-primary btn-sm" on:click={() => ok(true)}>Save</button>
+      <button class="btn btn-primary btn-sm" on:click={() => cancel(false)}>Cancel</button>
     {:else}
-      <button class="button" on:click={() => ok(true)}>Yes</button>
-      <button class="button" on:click={() => ok(false)}>No</button>
+      <button class="btn btn-primary btn-sm" on:click={() => ok(true)}>Yes</button>
+      <button class="btn btn-primary btn-sm" on:click={() => ok(false)}>No</button>
     {/if}
   </div>
 </Modal>

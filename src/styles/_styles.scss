@@ -3,9 +3,6 @@
 @import 'util/_mixins';
 @import 'base/global';
 
-// Inputs
-@import 'inputs/button';
-
 // Components
 @import 'components/data-container';
 @import 'components/file-finder';
@@ -14,4 +11,3 @@
 @import 'components/pager';
 @import 'components/scrollbar';
 @import 'components/stack';
-@import 'components/tabs';

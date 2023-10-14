@@ -83,21 +83,21 @@
           <i class="{value.icon}"></i> {getProgramString(value)}
         </h2>
         <div class="card-actions justify-end">
-          <button title="Edit" class="btn btn-primary btn-sm" on:click={onEditStart}><i class="nf nf-fa-edit ml-0"></i>Edit</button>
+          <button title="Edit" class="btn btn-square btn-sm" on:click={onEditStart}><i class="nf nf-fa-edit"></i></button>
         </div>
     {:else}
       <TextInput label="Name" description="Display Name" bind:value={value.name} />
 
-      <div class="flex items-center">
+      <div class="flex items-end">
         <TextInput label="Program" description="Full Path" bind:value={value.path} />
-        <button class="btn btn-square btn-sm" on:click={onSelectProgram} title="Select Program Path">
+        <button class="btn btn-square btn-sm mb-2" on:click={onSelectProgram} title="Select Program Path">
           <i class="nf nf-fa-search"></i>
         </button>
       </div>
 
-      <div class="flex items-center">
+      <div class="flex items-end">
         <TextInput label="Icon" description="Icon Class" bind:value={value.icon} />
-        <button class="btn btn-square btn-sm" on:click={onSelectIconClass} title="Select Icon">
+        <button class="btn btn-square btn-sm mb-2" on:click={onSelectIconClass} title="Select Icon">
           <i class="nf nf-fa-search"></i>
         </button>
       </div>
@@ -110,7 +110,7 @@
 
       <AddFromOptions label="New Argument Type" options={argTypeOptions} on:newValue={onNewArgument} />
 
-      <div class="actions">
+      <div class="card-actions justify-end">
         <button title="Save" class="btn btn-square btn-sm" on:click={onEditEnd}><i class="nf nf-fa-save"></i></button>
         <button title="Remove" class="btn btn-square btn-sm" on:click={onRemoveProgram}><i class="nf nf-fa-trash"></i></button>
       </div>
