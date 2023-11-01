@@ -134,9 +134,9 @@
 
     <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
 
-    <div class="card-actions justify-end">
-      <button title="Save" class="btn btn-square btn-sm" on:click={onSave}><i class="nf nf-fa-save"></i></button>
-      <button title="Remove" class="btn btn-square btn-sm" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
+    <div class="card-actions justify-end py-5">
+      <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
+      <button title="Save" class="btn btn-square btn-sm btn-success" on:click={onSave}><i class="nf nf-fa-save"></i></button>
     </div>
   </div>
 </section>

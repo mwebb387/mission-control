@@ -110,9 +110,9 @@
 
       <AddFromOptions label="New Argument Type" options={argTypeOptions} on:newValue={onNewArgument} />
 
-      <div class="card-actions justify-end">
-        <button title="Save" class="btn btn-square btn-sm" on:click={onEditEnd}><i class="nf nf-fa-save"></i></button>
-        <button title="Remove" class="btn btn-square btn-sm" on:click={onRemoveProgram}><i class="nf nf-fa-trash"></i></button>
+      <div class="card-actions justify-end py-5">
+        <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={onRemoveProgram}><i class="nf nf-fa-trash"></i></button>
+        <button title="Save" class="btn btn-square btn-sm btn-success" on:click={onEditEnd}><i class="nf nf-fa-save"></i></button>
       </div>
     {/if}
   </div>

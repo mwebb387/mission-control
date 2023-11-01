@@ -9,5 +9,15 @@ export default {
   plugins: [
     require("daisyui"),
   ],
+  daisyui: {
+    themes: [
+      {
+        dark: {
+          ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
+          "primary": "#b4befe",
+        },
+      },
+    ],
+  },
 }
 
