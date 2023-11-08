@@ -4,10 +4,10 @@
 </script>
 
 {#if $notifications$.length}
-  <div class="notification-container">
+  <div class="toast toast-top toast-end">
     {#each $notifications$ as notification}
-      <div class="notification" in:fade out:fade>
-        <i class="nf nf-fa-info-circle"></i>
+      <div class="alert alert-success" in:fade out:fade>
+        <i class="nf nf-fa-info_circle"></i>
         <p>{notification}</p>
       </div>
     {/each}

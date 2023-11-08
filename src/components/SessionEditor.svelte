@@ -7,7 +7,7 @@
   import TagInput from './tags/TagInput.svelte';
   import { ArgumentType } from '../models/config';
   import type { ModalResponse } from '../models/modal-types';
-  import type { ProgramTemplate, Session } from '../models/config';
+  import type { ProgramTemplate, Session, Execution } from '../models/config';
 
   import { createEventDispatcher } from 'svelte';
   import { selectDirOrFile } from '../services/tauri-service';
@@ -27,18 +27,22 @@
 
   // Helpers
 
-  const getProgramName = id => {
-    return programs.find( prog => prog.id === id ).name;
+  const getProgramName = (exe: Execution) => {
+    if (exe.name.length == 0) {
+      return programs?.find( prog => prog.id === exe.id )?.name ?? '';
+    }
+
+    return exe.name;
   }
 
-  const getProgramArgumentName = (progId, argId) => {
+  const getProgramArgumentName = (progId: string, argId: string) => {
     const prog = programs.find( prog => prog.id === progId );
-    return prog.arguments.find( arg => arg.id === argId ).name;
+    return prog?.arguments?.find( arg => arg.id === argId )?.name ?? '';
   }
 
-  const getProgramArgumentType = (progId, argId) => {
+  const getProgramArgumentType = (progId: string, argId: string) => {
     const prog = programs.find( prog => prog.id === progId );
-    return prog.arguments.find( arg => arg.id === argId ).type;
+    return prog?.arguments?.find( arg => arg.id === argId )?.type;
   }
 
 
@@ -52,7 +56,7 @@
     value.programs = [...value.programs, SessionService.createSessionProgram(event.detail, programs)];
   }
 
-  const onRemoveSessionProgram = programIndex => {
+  const onRemoveSessionProgram = (programIndex: Number) => {
     value.programs = value.programs.filter((_, idx) => idx !== programIndex);
   }
 
@@ -61,7 +65,7 @@
   }
 
   const onSelectFile = async (progIndex: number, argIndex: number, isDirectory = false) => {
-    const response = await selectDirOrFile(null, isDirectory)
+    const response = await selectDirOrFile(undefined, isDirectory)
     if (response) {
       value.programs[progIndex].arguments[argIndex].value += response;
     }
@@ -84,7 +88,7 @@
         <div class="collapse collapse-arrow join-item border border-base-300">
           <input type="checkbox" name="my-accordion-4" /> 
           <div class="collapse-title font-medium">
-            {getProgramName(program.id)}
+            {getProgramName(program)}
           </div>
 
           <div class="collapse-content">
