@@ -6,7 +6,6 @@
   import SessionService from '../services/session-service';
   import TagInput from './tags/TagInput.svelte';
   import { ArgumentType } from '../models/config';
-  import type { ModalResponse } from '../models/modal-types';
   import type { ProgramTemplate, Session, Execution } from '../models/config';
 
   import { createEventDispatcher } from 'svelte';
@@ -19,6 +18,8 @@
     tags: [],
     programs: []
   }
+
+  const editedSession = structuredClone(value);
 
   const dispatch = createEventDispatcher();
 
@@ -49,15 +50,21 @@
   // Events
 
   const onSave = () => {
-    dispatch('saveSession', value);
+    dispatch('saveSession', editedSession);
+  }
+
+  const onCancel = () => {
+    dispatch('saveSession', value); // TODO: Do we want a different event emitted here?
   }
 
   const onNewSessionProgram = event => {
-    value.programs = [...value.programs, SessionService.createSessionProgram(event.detail, programs)];
+    // value.programs = [...value.programs, SessionService.createSessionProgram(event.detail, programs)];
+    editedSession.programs = [...editedSession.programs, SessionService.createSessionProgram(event.detail, programs)];
   }
 
   const onRemoveSessionProgram = (programIndex: Number) => {
-    value.programs = value.programs.filter((_, idx) => idx !== programIndex);
+    // value.programs = value.programs.filter((_, idx) => idx !== programIndex);
+    editedSession.programs = editedSession.programs.filter((_, idx) => idx !== programIndex);
   }
 
   const onRemoveSession = () => {
@@ -67,7 +74,8 @@
   const onSelectFile = async (progIndex: number, argIndex: number, isDirectory = false) => {
     const response = await selectDirOrFile(undefined, isDirectory)
     if (response) {
-      value.programs[progIndex].arguments[argIndex].value += response;
+      // value.programs[progIndex].arguments[argIndex].value += response;
+      editedSession.programs[progIndex].arguments[argIndex].value += response;
     }
   }
 </script>
@@ -75,16 +83,16 @@
 
 <section class="card bg-neutral text-neutral-content">
   <div class="card-body">
-    <TextInput label="Name" description="Display Name" bind:value={value.name} />
+    <TextInput label="Name" description="Display Name" bind:value={editedSession.name} />
 
-    <TagInput bind:tags={value.tags} />
+    <TagInput bind:tags={editedSession.tags} />
 
     <div class="divider"></div>
 
     <h2 class="card-title">Programs</h2>
 
     <div class="join join-vertical w-full">
-      {#each value.programs as program, progIndex (program.id)}
+      {#each editedSession.programs as program, progIndex (program.id)}
         <div class="collapse collapse-arrow join-item border border-base-300">
           <input type="checkbox" name="my-accordion-4" /> 
           <div class="collapse-title font-medium">
@@ -140,6 +148,7 @@
 
     <div class="card-actions justify-end py-5">
       <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
+      <button title="Cancel" class="btn btn-square btn-sm btn-outline btn-warning" on:click={onCancel}><i class="nf nf-fa-times"></i></button>
       <button title="Save" class="btn btn-square btn-sm btn-success" on:click={onSave}><i class="nf nf-fa-save"></i></button>
     </div>
   </div>

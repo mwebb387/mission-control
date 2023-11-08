@@ -66,6 +66,9 @@
 
   const onSaveSession = (event: CustomEvent<Session>) => {
     editingSessions = editingSessions.filter(id => id !== event.detail.id);
+    const idx = sessions.findIndex(session => session.id === event.detail.id);
+    sessions[idx] = event.detail;
+    sessions = sessions;
   }
 
   const onShiftPrevious = (event: CustomEvent<Session>) => {
@@ -109,7 +112,7 @@
     {#if !editingSessions.includes(session.id)}
       <SessionComponent
         programs={programs}
-        bind:value={session}
+        value={session}
         allowReorderPrevious={i > 0}
         allowReorderNext={i < sessions.length - 1}
         on:editSession={onEditSession}
