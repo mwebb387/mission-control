@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   export let label = 'label';
   export let checked = false;
-  export let title = null;
+  export let title: string | null = null;
 </script>
 
 <div class="form-control">

@@ -31,7 +31,6 @@
     width: 100%;
 
     .sidebar {
-      // background: $primary;
       flex: 0 0 50px;
     }
   }

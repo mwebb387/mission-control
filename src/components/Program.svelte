@@ -8,7 +8,7 @@
   import TextInput from './inputs/TextInput.svelte';
   import { ArgumentType } from '../models/config';
   import type { ModalResponse } from '../models/modal-types'
-  import type { ProgramTemplate } from '../models/config';
+  import type { ArgumentTemplate, ProgramTemplate } from '../models/config';
   import { selectDirOrFile } from '../services/tauri-service';
 
   export let value: ProgramTemplate = {
@@ -35,7 +35,7 @@
 
   // Helpers
 
-  const getProgramString = program => {
+  const getProgramString = (program: ProgramTemplate) => {
     return ProgramService.getProgramDescription(program);
   }
 
@@ -70,7 +70,7 @@
     editingProgram.arguments = editingProgram.arguments;
   }
 
-  const onRemoveArgument = event => {
+  const onRemoveArgument = (event: CustomEvent<ArgumentTemplate>) => {
     editingProgram.arguments = editingProgram.arguments.filter(arg => arg.id !== event.detail.id);
   }
 
@@ -117,7 +117,7 @@
 
       <h2 class="text-lg font-bold">Arguments</h2>
 
-      {#each editingProgram.arguments as arg, index}
+      {#each editingProgram.arguments as arg}
         <ProgramArgument bind:argument={arg} on:removeArgument={onRemoveArgument} />
       {/each}
 

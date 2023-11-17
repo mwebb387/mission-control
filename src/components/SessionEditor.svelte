@@ -57,13 +57,11 @@
     dispatch('saveSession', value); // TODO: Do we want a different event emitted here?
   }
 
-  const onNewSessionProgram = event => {
-    // value.programs = [...value.programs, SessionService.createSessionProgram(event.detail, programs)];
+  const onNewSessionProgram = (event: CustomEvent<string>) => {
     editedSession.programs = [...editedSession.programs, SessionService.createSessionProgram(event.detail, programs)];
   }
 
   const onRemoveSessionProgram = (programIndex: Number) => {
-    // value.programs = value.programs.filter((_, idx) => idx !== programIndex);
     editedSession.programs = editedSession.programs.filter((_, idx) => idx !== programIndex);
   }
 
@@ -74,7 +72,6 @@
   const onSelectFile = async (progIndex: number, argIndex: number, isDirectory = false) => {
     const response = await selectDirOrFile(undefined, isDirectory)
     if (response) {
-      // value.programs[progIndex].arguments[argIndex].value += response;
       editedSession.programs[progIndex].arguments[argIndex].value += response;
     }
   }
@@ -92,7 +89,7 @@
     <h2 class="card-title">Programs</h2>
 
     <div class="join join-vertical w-full">
-      {#each editedSession.programs as program, progIndex (program.id)}
+      {#each editedSession.programs as program, progIndex}
         <div class="collapse collapse-arrow join-item border border-base-300">
           <input type="checkbox" name="my-accordion-4" /> 
           <div class="collapse-title font-medium">
