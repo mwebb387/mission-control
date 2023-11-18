@@ -8,18 +8,21 @@
   export let initial: boolean = false;
 
   $: selected = $currentTab === name;
+  $: hidden = !selected;
 
   if (initial) {
     setTab(name);
   }
 </script>
 
-<div class="tab" class:tab-selected={selected}>
-  <button type="button" on:click="{() => setTab(name)}">{name}</button>
-</div>
+<button
+  type="button"
+  class="tab tab-bordered"
+  class:tab-active={selected}
+  on:click="{() => setTab(name)}">{name}</button>
 
 {#if selected}
-<div class="tab-content">
+<div class="my-2 w-full order-1" class:hidden>
   <slot></slot>
 </div>
 {/if}

@@ -1,4 +1,5 @@
 import type { Config } from './models/config';
+import './styles/styles.css';
 import './styles/_styles.scss';
 import App from './App.svelte';
 import ApplicationService from './services/application-service';

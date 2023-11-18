@@ -1,42 +1,12 @@
-<script>
+<script lang="ts">
   export let label = 'label';
   export let checked = false;
-  export let title = null;
+  export let title: string | null = null;
 </script>
 
-<div class="input-container">
-  <label>
-    <input class="nf" {title} type=checkbox bind:checked={checked} />
-    {label}
+<div class="form-control">
+  <label class="label cursor-pointer flex items-center gap-1">
+    <span class="label-text">{label}</span> 
+    <input type="checkbox" bind:checked={checked} {title} class="checkbox" />
   </label>
 </div>
-
-<style lang="scss">
-  @import '../../styles/util/variables';
-
-  label {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-  }
-
-  input[type=checkbox] {
-    appearance: none;
-    color: inherit;
-    cursor: pointer;
-    font-size: 1.5rem;
-    height: 24px;
-    padding: 0;
-    width: 24px;
-
-    &::before {
-      content: "\f62d";
-    }
-
-    &:checked {
-      &::before {
-        content: "\f631";
-      }
-    }
-  }
-</style>

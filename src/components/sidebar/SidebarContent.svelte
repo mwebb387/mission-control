@@ -15,14 +15,15 @@
   }
 </script>
 
-<button type="button" class:selected on:click="{() => setItem(name)}">
-  {#if iconClass}
-    <i class={iconClass}></i>
-  {:else}
-    {name}
-  {/if}
-  <span class="tooltip">{name}</span>
-</button>
+<div class="tooltip tooltip-right" data-tip={name}>
+  <button type="button" class="hover:text-secondary" class:selected on:click="{() => setItem(name)}">
+    {#if iconClass}
+      <i class={iconClass}></i>
+    {:else}
+      {name}
+    {/if}
+  </button>
+</div>
 
 {#if selected}
 <div class="sidebar-content">
@@ -31,48 +32,22 @@
 {/if}
 
 <style lang="scss">
-  @import '../../styles/util/variables';
-
   button {
-    background: $primary;
     border: none;
     border-left: 2px solid transparent;
-    color: $off-white;
     cursor: pointer;
     outline: none;
     padding: 0.5rem 0.75rem;
     position: relative;
 
     &.selected {
-      border-left: 2px solid $accent;
-      color: $accent;
-    }
-
-    &:hover {
-      color: $accent;
-
-      & > .tooltip {
-        display: inline-block;
-      }
+      border-left: 2px solid hsl(var(--s));
+      color: hsl(var(--s));
     }
 
     i {
       font-size: 2rem;
     }
-  }
-
-  .tooltip {
-    color: $white;
-    background: $primary;
-    border: 1px solid $white;
-    box-shadow: 0 0 8px 0px $box-shadow;
-    display: none;
-    font-size: 0.75rem;
-    left: 50px;
-    position: absolute;
-    padding: 3px 10px;
-    top: 25%;
-    z-index: 99;
   }
 
   .sidebar-content {
@@ -81,7 +56,7 @@
     max-width: 1000px;
     margin: 0 auto;
     overflow-y: auto;
-    padding: 8px;
+    padding: 8px 24px 50px;
     position: absolute;
     right: 0;
     top: 0;

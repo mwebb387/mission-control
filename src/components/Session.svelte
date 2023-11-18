@@ -54,39 +54,33 @@
 </script>
 
 
-<section class="data-container" use:draggable={value}>
-  <div class="data-container__header">
-    <h3>{value.name}</h3>
-    <div class="actions">
-      <button title="Run Session" class="button icon-button" on:click={onStartSession}><i class="nf nf-fa-play"></i></button>
-      <button title="Edit" class="button icon-button" on:click={onEdit}><i class="nf nf-fa-edit"></i></button>
+<section class="card bg-neutral text-neutral-content" use:draggable={value}>
+  <div class="card-body">
+    <h3 class="card-title">{value.name}</h3>
+
+    <div class="flex flex-wrap gap-4 px-6">
+      {#each value.programs as program, index}
+        <button title={getProgramName(program.id)} class="btn btn-sm" on:click={() => onStartProgram(index)}>
+          <i class="{getProgramIcon(program.id)}"></i>
+          {(program.name && program.name.length) ? program.name : getProgramName(program.id)}
+          {#if !program.manualOnly}
+            <i class="fas fa-cogs text-accent"></i>
+          {/if}
+        </button>
+      {/each}
+    </div>
+
+    <div class="card-actions justify-end">
+      <button title="Run Session" class="btn btn-square btn-sm" on:click={onStartSession}><i class="nf nf-fa-play"></i></button>
+      <button title="Edit" class="btn btn-square btn-sm" on:click={onEdit}><i class="nf nf-fa-edit"></i></button>
 
       {#if showReorderButtons && allowReorderNext}
-        <button title="Order Next" class="button icon-button" on:click={onShiftNext}><i class="nf nf-fa-sort_down"></i></button>
+        <button title="Order Next" class="btn btn-square btn-sm" on:click={onShiftNext}><i class="nf nf-fa-sort_down"></i></button>
       {/if}
 
       {#if showReorderButtons && allowReorderPrevious}
-        <button title="Order Previous" class="button icon-button" on:click={onShiftPrevious}><i class="nf nf-fa-sort_up"></i></button>
+        <button title="Order Previous" class="btn btn-square btn-sm" on:click={onShiftPrevious}><i class="nf nf-fa-sort_up"></i></button>
       {/if}
     </div>
   </div>
-  <div class="data-container__content-row-left">
-    {#each value.programs as program, index}
-      <button title={getProgramName(program.id)} class="button" on:click={() => onStartProgram(index)}>
-        <i class="{getProgramIcon(program.id)}"></i>
-        {(program.name && program.name.length) ? program.name : getProgramName(program.id)}
-        {#if !program.manualOnly}
-          <i class="fas fa-cogs"></i>
-        {/if}
-      </button>
-    {/each}
-  </div>
 </section>
-
-<style lang="scss">
-  @import '../styles/util/variables';
-
-  .fa-cogs {
-    color: $button-accent;
-  }
-</style>

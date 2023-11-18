@@ -1,6 +1,6 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 // Notification store
-const notifications$ = writable([]);
+const notifications$: Writable<string[]> = writable([]);
 
 export default notifications$;

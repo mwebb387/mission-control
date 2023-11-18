@@ -16,7 +16,9 @@
   });
 </script>
 
-<div class="input-container grow">
-  <label>{label}</label>
-  <input type=text class=input {list} placeholder={description} bind:value={value} on:keydown on:keyup bind:this={ref} />
+<div class="form-control grow">
+  <label class="label flex flex-col items-start gap-1">
+    <span class="label-text">{label}</span>
+    <input type=text class="input input-bordered input-sm w-full" {list} placeholder={description} bind:value={value} on:keydown on:keyup bind:this={ref} />
+  </label>
 </div>
