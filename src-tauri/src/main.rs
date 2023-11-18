@@ -3,17 +3,27 @@
 
 use std::{env::var_os, fs, process::Command};
 use serde::{Serialize, Deserialize};
+use serde_json::error;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn start_session(commands: Vec<ExecutionCommand>) {
+fn start_session(commands: Vec<ExecutionCommand>) -> Vec<String> {
+    let mut errors: Vec<String> = Vec::new();
     for ex in commands {
         if ex.runAsAdmin {
-            run_elevated(ex)
+            match run_elevated(&ex) {
+                Ok(_) => (),
+                Err(e) => errors.push(format!("Error for {:?}: {:?}", ex.path, e))
+            }
         } else {
-            run_normal(ex)
+            match run_normal(&ex) {
+                Ok(_) => (),
+                Err(e) => errors.push(format!("Error for {:?}: {:?}", ex.path, e))
+            }
         }
     }
+
+    errors
 }
 
 #[tauri::command]
@@ -46,29 +56,32 @@ struct ExecutionCommand {
 }
 
 fn get_config_dir() -> String {
-    // TODO: For linux/mac?
-    return var_os("LOCALAPPDATA").unwrap().to_str().unwrap().into()
-}
-
-fn run_normal(cmd: ExecutionCommand) {
-    let proc = Command::new(cmd.path)
-        .args(cmd.args)
-        .spawn();
-
-    match proc {
-        Ok(_) => (),
-        Err(e) => println!("{:?}", e)
+    if cfg!(windows) {
+        return var_os("LOCALAPPDATA").unwrap().to_str().unwrap().into()
+    } else {
+        return var_os("XDG_CONFIG_HOME").unwrap().to_str().unwrap().into()
     }
 }
 
-fn run_elevated(cmd: ExecutionCommand) {
-    let proc = runas::Command::new(cmd.path)
+fn run_normal(cmd: &ExecutionCommand) -> Result<(), String> {
+    let proc = Command::new(&cmd.path)
+        .args(&cmd.args)
+        .spawn();
+
+    match proc {
+        Ok(_) => Ok(()),
+        Err(e) => Err(e.to_string())
+    }
+}
+
+fn run_elevated(cmd: &ExecutionCommand) -> Result<(), String> {
+    let proc = runas::Command::new(&cmd.path)
         .args(cmd.args.as_ref())
         .status();
 
     match proc {
-        Ok(_) => (),
-        Err(e) => println!("{:?}", e)
+        Ok(_) => Ok(()),
+        Err(e) => Err(e.to_string())
     }
 }
 
