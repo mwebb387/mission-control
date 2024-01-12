@@ -32,14 +32,16 @@ export async function saveConfiguration(sessions: Session[], programs: ProgramTe
 
 export async function startProgram(program: Execution, programs: ProgramTemplate[]) {
   const command = SessionService.getProgramSessionCommandParts(program, programs)
-  invoke('start_session', { commands: [command] });
+  const errors: string[] = await invoke('start_session', { commands: [command] });
+  errors.forEach(e => notify(e));
 }
 
 export async function startSession(session: Session, programs: ProgramTemplate[]) {
   const commands = session.programs
     .filter(sessionProg => !sessionProg.manualOnly)
     .map(sessionProg => SessionService.getProgramSessionCommandParts(sessionProg, programs))
-  invoke('start_session', { commands });
+  const errors: string[] = await invoke('start_session', { commands });
+  errors.forEach(e => notify(e));
 }
 
 export default {

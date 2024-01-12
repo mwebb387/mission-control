@@ -55,7 +55,8 @@
 				on:programsChanged={onSessionOrProgramChange} />
     </SidebarContent>
   </Sidebar>
-	<button title="Save" class="button button-save icon-button" on:click={onSave}><i class="nf nf-fa-save"></i></button>
+
+	<button title="Save" class="btn btn-sm fixed left-2 bottom-2 w-8 h-6" on:click={onSave}><i class="nf nf-fa-save"></i></button>
 </div>
 
 <Notification></Notification>
@@ -65,11 +66,5 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-}
-
-.button-save {
-	position: fixed;
-	right: 0;
-	top: 0;
 }
 </style>

@@ -66,6 +66,9 @@
 
   const onSaveSession = (event: CustomEvent<Session>) => {
     editingSessions = editingSessions.filter(id => id !== event.detail.id);
+    const idx = sessions.findIndex(session => session.id === event.detail.id);
+    sessions[idx] = event.detail;
+    sessions = sessions;
   }
 
   const onShiftPrevious = (event: CustomEvent<Session>) => {
@@ -89,12 +92,17 @@
 
 <svelte:window on:keydown={onKeydown} />
 
-<div class="stack">
-  <details class="stack">
-    <summary>Filters</summary>
-    <TextInput label="Filter by name" description="Name..." bind:value={textFilter} />
-    <TagInput bind:tags={tagsFilter} />
-  </details>
+<div class="flex flex-col">
+  <div class="collapse collapse-arrow bg-base-200">
+    <input type="checkbox" /> 
+    <div class="collapse-title text-xl font-medium">
+      Filters
+    </div>
+    <div class="collapse-content"> 
+      <TextInput label="Filter by name" description="Name..." bind:value={textFilter} />
+      <TagInput bind:tags={tagsFilter} />
+    </div>
+  </div>
 
   {#each filteredSessions as session, i (session.id)}
     {#if !isFilterActive}
@@ -104,7 +112,7 @@
     {#if !editingSessions.includes(session.id)}
       <SessionComponent
         programs={programs}
-        bind:value={session}
+        value={session}
         allowReorderPrevious={i > 0}
         allowReorderNext={i < sessions.length - 1}
         on:editSession={onEditSession}

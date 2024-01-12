@@ -29,6 +29,12 @@
     dispatch('programsChanged');
   }
 
+  const onSaveProgram = async (event: CustomEvent<ProgramTemplate>) => {
+    const idx = programs.findIndex(session => session.id === event.detail.id);
+    programs[idx] = event.detail;
+    programs = programs;
+  }
+
   const onRemoveProgram = async (event: CustomEvent<ProgramTemplate>) => {
     const { data } = await modal.awaitResponse();
     if (data) {
@@ -37,12 +43,12 @@
   }
 </script>
 
-<div class="stack">
+<div class="flex flex-col">
 
   {#each programs as program, i (program.id)}
     <Dropzone on:dropped={ev => onDropped(ev, i)}></Dropzone>
 
-    <Program value={program} on:removeProgram={onRemoveProgram} />
+    <Program value={program} on:saveProgram={onSaveProgram} on:removeProgram={onRemoveProgram} />
   {/each}
 
   <Dropzone on:dropped={ev => onDropped(ev, programs.length)}></Dropzone>

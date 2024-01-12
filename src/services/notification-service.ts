@@ -2,9 +2,16 @@ import notifications$ from "../stores/notification-store";
 
 // Show notifications
 export function notify(message: string) {
-  notifications$.update(n => [...n, message]);
+  notifications$.update(n => {
+    n.push(message);
+    return n;
+  });
+
   setTimeout(
-    () => notifications$.update(n => n.filter(n => n !== message)),
+    () => notifications$.update(n => {
+      n.shift();
+      return n;
+    }),
     3000
   );
 }

@@ -54,19 +54,19 @@
   }
 </script>
 
-<div class="data-container__content-row-flush">
+<div class="flex items-end">
   <TextInput label="Tags" list={dataListId} description="Add Tags" on:keydown={onKeydown} bind:value={newTagsInput} />
   <datalist id={dataListId}>
     {#each uniqTags as storeTag}
       <option value={storeTag}>
     {/each}
   </datalist>
-  <button class="button icon-button" disabled="{!newTagsInput}" on:click={onAddTagsClick}>
+  <button class="btn btn-square btn-sm mb-2" disabled="{!newTagsInput}" on:click={onAddTagsClick}>
     <i class="nf nf-fa-plus"></i>
   </button>
 </div>
 
-<div class="data-container__content-row-left">
+<div class="flex gap-4 px-6">
   {#each tags as tag}
     <Tag on:click={onTagClick} >{tag}</Tag>
   {/each}

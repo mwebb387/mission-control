@@ -6,8 +6,7 @@
   import SessionService from '../services/session-service';
   import TagInput from './tags/TagInput.svelte';
   import { ArgumentType } from '../models/config';
-  import type { ModalResponse } from '../models/modal-types';
-  import type { ProgramTemplate, Session } from '../models/config';
+  import type { ProgramTemplate, Session, Execution } from '../models/config';
 
   import { createEventDispatcher } from 'svelte';
   import { selectDirOrFile } from '../services/tauri-service';
@@ -20,6 +19,8 @@
     programs: []
   }
 
+  const editedSession = structuredClone(value);
+
   const dispatch = createEventDispatcher();
 
   const sessionProgramTypeOptions =
@@ -27,33 +28,41 @@
 
   // Helpers
 
-  const getProgramName = id => {
-    return programs.find( prog => prog.id === id ).name;
+  const getProgramName = (exe: Execution) => {
+    if (exe.name.length == 0) {
+      return programs?.find( prog => prog.id === exe.id )?.name ?? '';
+    }
+
+    return exe.name;
   }
 
-  const getProgramArgumentName = (progId, argId) => {
+  const getProgramArgumentName = (progId: string, argId: string) => {
     const prog = programs.find( prog => prog.id === progId );
-    return prog.arguments.find( arg => arg.id === argId ).name;
+    return prog?.arguments?.find( arg => arg.id === argId )?.name ?? '';
   }
 
-  const getProgramArgumentType = (progId, argId) => {
+  const getProgramArgumentType = (progId: string, argId: string) => {
     const prog = programs.find( prog => prog.id === progId );
-    return prog.arguments.find( arg => arg.id === argId ).type;
+    return prog?.arguments?.find( arg => arg.id === argId )?.type;
   }
 
 
   // Events
 
   const onSave = () => {
-    dispatch('saveSession', value);
+    dispatch('saveSession', editedSession);
   }
 
-  const onNewSessionProgram = event => {
-    value.programs = [...value.programs, SessionService.createSessionProgram(event.detail, programs)];
+  const onCancel = () => {
+    dispatch('saveSession', value); // TODO: Do we want a different event emitted here?
   }
 
-  const onRemoveSessionProgram = programIndex => {
-    value.programs = value.programs.filter((_, idx) => idx !== programIndex);
+  const onNewSessionProgram = (event: CustomEvent<string>) => {
+    editedSession.programs = [...editedSession.programs, SessionService.createSessionProgram(event.detail, programs)];
+  }
+
+  const onRemoveSessionProgram = (programIndex: Number) => {
+    editedSession.programs = editedSession.programs.filter((_, idx) => idx !== programIndex);
   }
 
   const onRemoveSession = () => {
@@ -61,61 +70,83 @@
   }
 
   const onSelectFile = async (progIndex: number, argIndex: number, isDirectory = false) => {
-    const response = await selectDirOrFile(null, isDirectory)
+    const response = await selectDirOrFile(undefined, isDirectory)
     if (response) {
-      value.programs[progIndex].arguments[argIndex].value += response;
+      editedSession.programs[progIndex].arguments[argIndex].value += response;
     }
   }
 </script>
 
 
-<section class="data-container edit">
-  <TextInput label="Name" description="Display Name" bind:value={value.name} />
+<section class="card bg-neutral text-neutral-content">
+  <div class="card-body">
+    <TextInput label="Name" description="Display Name" bind:value={editedSession.name} />
 
-  <TagInput bind:tags={value.tags} />
+    <TagInput bind:tags={editedSession.tags} />
 
-  <h2>Programs</h2>
+    <div class="divider"></div>
 
-  {#each value.programs as program, progIndex}
-    <div class="data-container__content-container">
-      <button title="Remove" class="button button-delete icon-button" on:click={() => onRemoveSessionProgram(progIndex)}><i class="nf nf-fa-trash"></i></button>
-      <span>{getProgramName(program.id)}</span>
+    <h2 class="card-title">Programs</h2>
 
-      <TextInput label="Name" bind:value={program.name} />
+    <div class="join join-vertical w-full">
+      {#each editedSession.programs as program, progIndex}
+        <div class="collapse collapse-arrow join-item border border-base-300">
+          <input type="checkbox" name="my-accordion-4" /> 
+          <div class="collapse-title font-medium">
+            {getProgramName(program)}
+          </div>
 
-      <div class="data-container__content-row">
-        <Checkbox label="Admin" bind:checked={program.runAsAdmin} />
-        <Checkbox label="Manual Only" bind:checked={program.manualOnly} title="Exclude from full session execution" />
-        {#each program.arguments as arg, argIndex}
-          {#if getProgramArgumentType(program.id, arg.id) === ArgumentType.option}
-            <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
-          {:else}
-            <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
-            <div class="finder-container">
-              <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
-                <i class="nf nf-oct-file"></i>
-              </button>
-              <button class="button icon-button" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
-                <i class="nf nf-mdi-folder_outline"></i>
+          <div class="collapse-content">
+
+            <div class="flex items-center gap-1 px-6">
+              <Checkbox label="Admin" bind:checked={program.runAsAdmin} />
+              <Checkbox label="Manual Only" bind:checked={program.manualOnly} title="Exclude from full session execution" />
+            </div>
+
+            <TextInput label="Name" bind:value={program.name} />
+
+            <div class="flex gap-1 pl-6">
+              {#each program.arguments as arg, argIndex}
+                {#if getProgramArgumentType(program.id, arg.id) === ArgumentType.option}
+                  <Checkbox label={getProgramArgumentName(program.id, arg.id)} bind:checked={arg.value} />
+                {:else}
+                  <TextAreaInput label={getProgramArgumentName(program.id, arg.id)} bind:value={arg.value} />
+
+                  <div class="dropdown dropdown-top dropdown-end">
+                    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label tabindex="0" class="btn btn-square btn-sm"><i class="nf nf-fa-search"></i></label>
+
+                    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                    <ul tabindex="0" class="dropdown-content z-10 menu p-4 shadow rounded-box bg-base-100 w-52 flex gap-1">
+                      <button class="btn btn-sm btn-outline" on:click={() => onSelectFile(progIndex, argIndex)} title="Select File">
+                        <i class="nf nf-oct-file"></i>File
+                      </button>
+                      <button class="btn btn-sm btn-outline" on:click={() => onSelectFile(progIndex, argIndex, true)} title="Select Folder">
+                        <i class="nf nf-mdi-folder_outline"></i>Folder
+                      </button>
+                    </ul>
+                  </div>
+                {/if}
+              {/each}
+            </div>
+
+            <div class="flex justify-end mt-12">
+              <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={() => onRemoveSessionProgram(progIndex)}>
+                <i class="nf nf-fa-trash"></i>
               </button>
             </div>
-          {/if}
-        {/each}
-      </div>
+          </div>
+        </div>
+      {/each}
     </div>
-  {/each}
 
-  <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
+    <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
 
-  <div class="actions">
-    <button title="Save" class="button button-save icon-button" on:click={onSave}><i class="nf nf-fa-save"></i></button>
-    <button title="Remove" class="button button-delete icon-button" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
+    <div class="card-actions justify-end py-5">
+      <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
+      <button title="Cancel" class="btn btn-square btn-sm btn-outline btn-warning" on:click={onCancel}><i class="nf nf-fa-times"></i></button>
+      <button title="Save" class="btn btn-square btn-sm btn-success" on:click={onSave}><i class="nf nf-fa-save"></i></button>
+    </div>
   </div>
 </section>
-
-<style>
-  .finder-container {
-    display: flex;
-    flex-direction: column;
-  }
-</style>

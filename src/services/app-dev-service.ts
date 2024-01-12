@@ -2,6 +2,7 @@ import type { Config, Execution, ProgramTemplate, Session } from './../models/co
 import type { FileSystemEntry } from './../models/file-system';
 import { ArgumentType } from '../models/config';
 import SessionService from './session-service';
+import { notify } from './notification-service';
 
 export function getDirectoryListing(directoryName?: string): Promise<FileSystemEntry[]> {
   if (!directoryName) {
@@ -137,6 +138,7 @@ export function loadConfiguration(): Promise<Config> {
 export function saveConfiguration(sessions: Session[], programs: ProgramTemplate[]) {
   const config: Config = { sessions, programs };
   console.log('save config', config);
+  notify('Settings Saved');
 }
 
 export function startProgram(program: Execution, programs: ProgramTemplate[]) {
