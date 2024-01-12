@@ -41,8 +41,8 @@
     position: relative;
 
     &.selected {
-      border-left: 2px solid hsl(var(--s));
-      color: hsl(var(--s));
+      border-left: 2px solid oklch(var(--s));
+      color: oklch(var(--s));
     }
 
     i {

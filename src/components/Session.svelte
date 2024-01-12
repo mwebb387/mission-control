@@ -16,18 +16,18 @@
   export let allowReorderNext = true;
 
   // TODO: Should pull from settings once implemented...
-  let showReorderButtons = false;
+  let showReorderButtons = true;
 
   const dispatch = createEventDispatcher();
 
   // Helpers
 
-  const getProgramName = id => {
-    return programs.find( prog => prog.id === id ).name;
+  const getProgramName = (id: string) => {
+    return programs.find( prog => prog.id === id )?.name;
   }
 
-  const getProgramIcon = id => {
-    return programs.find( prog => prog.id === id).icon;
+  const getProgramIcon = (id: string) => {
+    return programs.find( prog => prog.id === id)?.icon;
   }
 
   // Events

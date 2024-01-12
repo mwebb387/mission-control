@@ -13,7 +13,7 @@ export default {
     themes: [
       {
         dark: {
-          ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
+          ...require("daisyui/src/theming/themes")["dark"],
           "primary": "#b4befe",
         },
       },

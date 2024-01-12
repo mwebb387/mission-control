@@ -3,7 +3,6 @@
 
 use std::{env::var_os, fs, process::Command};
 use serde::{Serialize, Deserialize};
-use serde_json::error;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
