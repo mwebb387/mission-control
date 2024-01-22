@@ -4,9 +4,10 @@ import './styles/_styles.scss';
 import App from './App.svelte';
 import ApplicationService from './services/application-service';
 import tagStore$ from './stores/tag-store';
+import util from './util';
 
-const main = (config: Config) : App => {
-  // Initialize the application
+const main = (config: Config): App => {
+	// Initialize the application
 	const app = new App({
 		target: document.body,
 		props: {
@@ -18,18 +19,29 @@ const main = (config: Config) : App => {
 	return app;
 }
 
-const initTags = (config: Config) : Config => {
-  // Upgrade older session configurations
-  config?.sessions?.forEach(s => s.tags = s.tags || []);
-  const tags = config?.sessions
-    ?.flatMap(session => session.tags || [])
-    ?? [];
-  tagStore$.updateTags(tags);
+const initTags = (config: Config): Config => {
+	// Upgrade older session configurations
+	config?.sessions?.forEach(s => s.tags = s.tags || []);
+	const tags = config?.sessions
+		?.flatMap(session => session.tags || [])
+		?? [];
+	tagStore$.updateTags(tags);
 
-  return config;
+	return config;
+}
+
+const initExeIds = (config: Config): Config => {
+	// Upgrade older session configurations
+	config?.sessions
+    ?.map(s => s.programs)
+    ?.flat()
+    ?.forEach(exe => exe.exeId = exe.exeId || util.createID());
+
+	return config;
 }
 
 ApplicationService
 	.loadConfiguration()
-  .then(initTags)
+	.then(initTags)
+  .then(initExeIds)
 	.then(main);

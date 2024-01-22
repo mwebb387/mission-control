@@ -89,7 +89,7 @@
     <h2 class="card-title">Programs</h2>
 
     <div class="join join-vertical w-full">
-      {#each editedSession.programs as program, progIndex}
+      {#each editedSession.programs as program, progIndex (program.exeId)}
         <div class="collapse collapse-arrow join-item border border-base-300">
           <input type="checkbox" name="my-accordion-4" /> 
           <div class="collapse-title font-medium">

@@ -12,6 +12,7 @@ export interface Session {
 
 export interface Execution {
   id: string,
+  exeId: string,
   name: string,
   arguments: Argument[],
   runAsAdmin: boolean,

@@ -44,7 +44,14 @@ export function createSessionProgram(programID: string, programs: ProgramTemplat
     value: getDefaultArgumentValue(arg.type)
   }))
 
-  return { id: programID, name: '', arguments: args, runAsAdmin: false, manualOnly: false };
+  return {
+    id: programID,
+    exeId: Util.createID(),
+    name: '',
+    arguments: args,
+    runAsAdmin: false,
+    manualOnly: false
+  };
 }
 
 export function getProgramSessionCommandParts(
