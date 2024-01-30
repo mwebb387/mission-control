@@ -1,6 +1,5 @@
 import { ArgumentType,  } from '../models/config';
 import type { Session, Execution, ProgramTemplate, ExecutionCommand } from '../models/config';
-// import * as ArgumentTypes from '../constants/argument-types';
 import Util from '../util';
 
 // {
@@ -63,6 +62,7 @@ export function getProgramSessionCommandParts(
   const program = programs.find(prog => prog.id === execution.id);
 
   const path = fullPath ? program.path : program.name;
+
   const args = execution.arguments
     .filter(arg => !!arg.value)
     .map(arg => {
@@ -78,13 +78,8 @@ export function getProgramSessionCommandParts(
   return { path, args, runAsAdmin }
 }
 
-// export function getProgramSessionCommand(sessionProgram, programs, fullPath = true) {
-//   return getProgramSessionCommandParts(sessionProgram, programs, fullPath).join(' ');
-// }
-
 export default {
   createSession,
   createSessionProgram,
-  // getProgramSessionCommand,
   getProgramSessionCommandParts
 }

@@ -4,6 +4,7 @@ import { type Config, type Execution, type Session, type ProgramTemplate, Argume
 import type { FileSystemEntry } from '../models/file-system';
 import { notify } from './notification-service';
 import SessionService from './session-service';
+import { resolve } from '@tauri-apps/api/path';
 
 const CONFIG_DEFAULT: Config = {sessions:[], programs:[]};
 
@@ -20,7 +21,7 @@ export async function selectDirOrFile(initialDirectory?: string, directory: bool
 }
 
 export async function loadConfiguration(): Promise<Config> {
-  const configStr = await invoke('load_config') as string;
+  const configStr = await invoke<string>('load_config');
   return configStr ? JSON.parse(configStr) : CONFIG_DEFAULT;
 }
 
@@ -32,6 +33,10 @@ export async function saveConfiguration(sessions: Session[], programs: ProgramTe
 
 export async function startProgram(program: Execution, programs: ProgramTemplate[]) {
   const command = SessionService.getProgramSessionCommandParts(program, programs)
+
+  // Resolve aliases
+  command.path = await resolveAliases(command.path);
+
   const errors: string[] = await invoke('start_session', { commands: [command] });
   errors.forEach(e => notify(e));
 }
@@ -39,9 +44,26 @@ export async function startProgram(program: Execution, programs: ProgramTemplate
 export async function startSession(session: Session, programs: ProgramTemplate[]) {
   const commands = session.programs
     .filter(sessionProg => !sessionProg.manualOnly)
-    .map(sessionProg => SessionService.getProgramSessionCommandParts(sessionProg, programs))
+    .map(sessionProg => SessionService.getProgramSessionCommandParts(sessionProg, programs));
+  
+  // Resolve aliases
+  for (let cmd of commands) {
+    cmd.path = await resolveAliases(cmd.path)
+  }
+
   const errors: string[] = await invoke('start_session', { commands });
   errors.forEach(e => notify(e));
+}
+
+async function resolveAliases(programPath: string) {
+  let resolved = programPath;
+  for (let match of programPath.match(/\{[a-zA-Z0-9]+\}/g) ?? []) {
+    // TODO: Error reporting for when alias cannot be resolved
+    const resAlias = await invoke<string>('resolve_alias', { alias: match.substring(1, match.length - 1)});
+    resolved = resolved.replace(match, resAlias);
+  }
+
+  return resolved;
 }
 
 export default {

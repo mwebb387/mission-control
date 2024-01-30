@@ -47,6 +47,17 @@ fn save_config(config: String) -> bool {
     }
 }
 
+#[tauri::command]
+fn resolve_alias(alias: String) -> String {
+    print!("{}", alias);
+    match alias.as_str() {
+        "config" => get_config_dir(),
+        "program-files" => "C:\\Program Files".into(),
+        "program-files-x86" => "C:\\Program Files (x86)".into(),
+        _ => "".into()
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 struct ExecutionCommand {
   path: String,
@@ -88,6 +99,7 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             load_config,
+            resolve_alias,
             save_config,
             start_session
         ])

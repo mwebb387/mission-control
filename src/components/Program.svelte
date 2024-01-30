@@ -89,7 +89,8 @@
   }
 </script>
 
-<section class="card bg-neutral text-neutral-content" class:edit={isEditing} use:draggable={value} on:blur={onEditEnd}>
+<!-- <section class="card bg-neutral text-neutral-content" class:edit={isEditing} use:draggable={value} on:blur={onEditEnd}> -->
+<section class="card bg-neutral text-neutral-content" class:edit={isEditing} on:blur={onEditEnd}>
   <div class="card-body">
     {#if !isEditing}
         <h2 class="card-title">

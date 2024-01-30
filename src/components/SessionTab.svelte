@@ -107,6 +107,8 @@
   {#each filteredSessions as session, i (session.id)}
     {#if !isFilterActive}
       <Dropzone on:dropped={ev => onDropped(ev, i)}></Dropzone>
+    {:else}
+      <div class="h-10"></div>
     {/if}
 
     {#if !editingSessions.includes(session.id)}

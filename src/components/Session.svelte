@@ -16,7 +16,7 @@
   export let allowReorderNext = true;
 
   // TODO: Should pull from settings once implemented...
-  let showReorderButtons = true;
+  let showReorderButtons = false;
 
   const dispatch = createEventDispatcher();
 
