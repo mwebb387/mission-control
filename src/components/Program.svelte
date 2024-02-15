@@ -19,6 +19,8 @@
     arguments: []
   };
 
+  export let allowDrag = true;
+
   let editingProgram = structuredClone(value);
 
   let argTypeOptions = [
@@ -36,7 +38,7 @@
   // Helpers
 
   const getProgramString = (program: ProgramTemplate) => {
-    return ProgramService.getProgramDescription(program);
+    return program.name;
   }
 
 
@@ -89,10 +91,12 @@
   }
 </script>
 
-<!-- <section class="card bg-neutral text-neutral-content" class:edit={isEditing} use:draggable={value} on:blur={onEditEnd}> -->
 <section class="card bg-neutral text-neutral-content" class:edit={isEditing} on:blur={onEditEnd}>
   <div class="card-body">
     {#if !isEditing}
+        {#if allowDrag}
+          <i class="nf nf-oct-grabber absolute top-2 right-3 text-xl cursor-move" use:draggable={value}></i>
+        {/if}
         <h2 class="card-title">
           <i class="{editingProgram.icon}"></i> {getProgramString(editingProgram)}
         </h2>

@@ -22,15 +22,7 @@ export function createProgram(name: string): ProgramTemplate {
   }
 }
 
-export function getProgramDescription(program: ProgramTemplate): string {
-  const args = program.arguments
-    .map(arg => `<${arg.name}>`)
-
-  return [ program.name, ...args].join(' ')
-}
-
 export default {
   createArgument,
   createProgram,
-  getProgramDescription
 }

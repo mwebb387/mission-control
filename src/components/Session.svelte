@@ -12,6 +12,7 @@
     programs: []
   }
 
+  export let allowDrag = true;
   export let allowReorderPrevious = true;
   export let allowReorderNext = true;
 
@@ -54,8 +55,11 @@
 </script>
 
 
-<section class="card bg-neutral text-neutral-content" use:draggable={value}>
+<section class="card bg-neutral text-neutral-content">
   <div class="card-body">
+    {#if allowDrag}
+      <i class="nf nf-oct-grabber absolute top-2 right-3 text-xl cursor-move" use:draggable={value}></i>
+    {/if}
     <h3 class="card-title">{value.name}</h3>
 
     <div class="flex flex-wrap gap-4 px-6">

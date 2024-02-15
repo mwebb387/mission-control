@@ -115,6 +115,7 @@
       <SessionComponent
         programs={programs}
         value={session}
+        allowDrag={!isFilterActive}
         allowReorderPrevious={i > 0}
         allowReorderNext={i < sessions.length - 1}
         on:editSession={onEditSession}
