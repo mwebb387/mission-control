@@ -4,6 +4,7 @@
 	import Notification from './components/Notification.svelte';
 	import ProgramTab from './components/ProgramTab.svelte';
 	import SessionTab from './components/SessionTab.svelte';
+  import SettingsTab from './components/SettingsTab.svelte';
 
   import Sidebar from './components/sidebar/Sidebar.svelte';
   import SidebarContent from './components/sidebar/SidebarContent.svelte';
@@ -20,7 +21,7 @@
 	}
 
 	function onSessionOrProgramChange() {
-    AppService.saveConfiguration(sessions, programs);
+    	// AppService.saveConfiguration(sessions, programs);
 	}
 
 	function onRemoveProgram(event: CustomEvent<ProgramTemplate>) {
@@ -30,7 +31,7 @@
 
 		programs = programs.filter(prog => prog.id != event.detail.id);
 
-		AppService.saveConfiguration(sessions, programs);
+		// AppService.saveConfiguration(sessions, programs);
 	}
 
 	async function onSave() {
@@ -54,6 +55,9 @@
 				on:removeProgram={onRemoveProgram}
 				on:programsChanged={onSessionOrProgramChange} />
     </SidebarContent>
+    <!-- <SidebarContent name="Settings" iconClass="nf nf-oct-settings">
+			<SettingsTab />
+    </SidebarContent> -->
   </Sidebar>
 
 	<button title="Save" class="btn btn-sm fixed left-2 bottom-2 w-8 h-6" on:click={onSave}><i class="nf nf-fa-save"></i></button>

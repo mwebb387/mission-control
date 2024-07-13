@@ -5,7 +5,7 @@ import util from '../util'
 
 export function createArgument(type: ArgumentType): ArgumentTemplate {
   return {
-    id: util.createID(),
+    id: util.createUUID(),
     name: '',
     type,
     value: '',
@@ -14,7 +14,7 @@ export function createArgument(type: ArgumentType): ArgumentTemplate {
 
 export function createProgram(name: string): ProgramTemplate {
   return {
-    id: util.createID(),
+    id: util.createUUID(),
     name,
     icon: '',
     path: '',

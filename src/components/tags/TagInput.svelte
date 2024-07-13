@@ -1,13 +1,13 @@
 <script lang="ts">
   import tagStore$ from '../../stores/tag-store';
-  import { createGuid } from '../../util';
+  import { createUUID } from '../../util';
   import Tag from './Tag.svelte';
   import TextInput from '../inputs/TextInput.svelte';
 
   export let tags: string[] = [];
 
   let newTagsInput: string = '';
-  let dataListId = `data-list-${createGuid()}`;
+  let dataListId = `data-list-${createUUID()}`;
 
   // Create derived store for the datalist
   $: uniqTags = $tagStore$.filter(tag => !tags.includes(tag));

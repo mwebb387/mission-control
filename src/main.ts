@@ -30,12 +30,44 @@ const initTags = (config: Config): Config => {
 	return config;
 }
 
-const initExeIds = (config: Config): Config => {
-	// Upgrade older session configurations
-	config?.sessions
-    ?.map(s => s.programs)
-    ?.flat()
-    ?.forEach(exe => exe.exeId = exe.exeId || util.createID());
+const migrateToUUIDs = (config: Config): Config => {
+	if (config.version ?? 0 >= 20240215) {
+		return config;
+	}
+
+	// First upgrade program and arg IDs
+	let progIdMaps = new Map<string, string>();
+	let argIdMaps = new Map<string, string>();
+	config?.programs?.forEach(p => {
+		const puuid = util.createUUID();
+		progIdMaps.set(p.id, puuid);
+		p.id = puuid;
+
+		// Handle args
+		p.arguments.forEach(arg => {
+			const auuid = util.createUUID();
+			argIdMaps.set(arg.id, auuid);
+			arg.id = auuid;
+		})
+	});
+
+	// Now map all the new IDs for the sessions
+	config?.sessions?.forEach(s => {
+		s.id = util.createUUID();
+
+		s.programs.forEach(sp => {
+			sp.exeId = util.createUUID();
+
+			sp.id = progIdMaps.get(sp.id) ?? util.createUUID();
+
+			sp.arguments.forEach(spa => {
+				spa.id = argIdMaps.get(spa.id) ?? util.createUUID();
+			})
+		})
+	})
+
+	// Set new version
+	config.version = 20240215;
 
 	return config;
 }
@@ -43,5 +75,5 @@ const initExeIds = (config: Config): Config => {
 ApplicationService
 	.loadConfiguration()
 	.then(initTags)
-  .then(initExeIds)
+	.then(migrateToUUIDs)
 	.then(main);

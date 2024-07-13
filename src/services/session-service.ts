@@ -32,7 +32,7 @@ function getDefaultArgumentValue(argType: ArgumentType): string | boolean {
 }
 
 export function createSession(name: string): Session {
-  return { id: Util.createID(), name, tags: [], programs: [] };
+  return { id: Util.createUUID(), name, tags: [], programs: [] };
 }
 
 export function createSessionProgram(programID: string, programs: ProgramTemplate[]): Execution {
@@ -45,7 +45,7 @@ export function createSessionProgram(programID: string, programs: ProgramTemplat
 
   return {
     id: programID,
-    exeId: Util.createID(),
+    exeId: Util.createUUID(),
     name: '',
     arguments: args,
     runAsAdmin: false,

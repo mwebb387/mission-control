@@ -143,10 +143,10 @@
 
     <AddFromOptions label="New Session Program Type" options={sessionProgramTypeOptions} on:newValue={onNewSessionProgram} />
 
-    <div class="card-actions justify-end py-5">
+    <div class="card-actions justify-start py-5">
       <button title="Remove" class="btn btn-square btn-sm btn-outline btn-error" on:click={onRemoveSession}><i class="nf nf-fa-trash"></i></button>
       <button title="Cancel" class="btn btn-square btn-sm btn-outline btn-warning" on:click={onCancel}><i class="nf nf-fa-times"></i></button>
-      <button title="Save" class="btn btn-square btn-sm btn-success" on:click={onSave}><i class="nf nf-fa-save"></i></button>
+      <button title="Save" class="btn btn-square btn-sm btn-success justify-self-end" on:click={onSave}><i class="nf nf-fa-save"></i></button>
     </div>
   </div>
 </section>

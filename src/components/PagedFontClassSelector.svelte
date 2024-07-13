@@ -21,7 +21,7 @@
 <TextInput label="Filter by name" bind:value={filter}></TextInput>
 <div class="font-class-container">
   {#each pagedFilteredClasses as fontClass}
-    <button type="button" class="button icon-button" title={fontClass} on:click={() => selectFont(`${fontClass}`)}>
+    <button type="button" class="btn btn-square" title={fontClass} on:click={() => selectFont(`${fontClass}`)}>
       <i class="{fontClass}"></i>
     </button>
   {/each}

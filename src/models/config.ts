@@ -1,4 +1,5 @@
 export interface Config {
+  version: number,
   sessions: Session[],
   programs: ProgramTemplate[],
 }
