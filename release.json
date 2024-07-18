@@ -1,0 +1,11 @@
+{
+  "version": "v0.1.1",
+  "notes": "Mission Control",
+  "pub_date": "2024-07-18T12:00:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUWmM3dFVhNmNlblBLVGNqb01vNFlENWlrbEV5NkVyazZBK2hjdFA4V0pOYWpnQk54bGIrRU0za3ZlZU5vRGx1ZHNRdi94QlN2c2dYTERWNU4wS3BvZEhyWmkrUlZYendJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzEyODU0NDQzCWZpbGU6TWlzc2lvbiBDb250cm9sXzAuMS4xX3g2NF9lbi1VUy5tc2kuemlwClF2emFiUndQS3grTXRtcW1MK2F6K0JPc3dwU3psRXAwVTY4MlFDMmpNejhIMlEvTDhkMnp3V0JMTTNhdElxNUU1dDQxSi9PRyt5YUR4YU1ZeFQrM0FnPT0K",
+      "url": "https://github.com/username/reponame/releases/download/v1.0.0/app-x64-setup.nsis.zip"
+    }
+  }
+}
