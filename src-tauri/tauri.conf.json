@@ -39,6 +39,7 @@
     "updater": {
       "active": false,
       "endpoints": [
+        "https://github.com/mwebb387/mission-control/release/release.json"
       ],
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDlDMUVBNzZCNTRCQjczRDkKUldUWmM3dFVhNmNlbkdTYzlEMXpWR0pFOWV2bFJLeEgzdExCQ0w4d2VkNHFrR0c5ZDZZdEtiWjMK"
