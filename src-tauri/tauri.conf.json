@@ -37,7 +37,7 @@
       "csp": null
     },
     "updater": {
-      "active": false,
+      "active": true,
       "endpoints": [
         "https://github.com/mwebb387/mission-control/release/release.json"
       ],
